@@ -1,0 +1,98 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+.env
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Test / coverage / CI
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+.cache
+nosetests.xml
+coverage.xml
+
+# Type checkers / caches
+.mypy_cache/
+.pyre/
+.pytype/
+.pyright/
+
+# Jupyter
+.ipynb_checkpoints
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+
+# Machine learning artifacts / large files
+checkpoints/
+weights/
+models/
+outputs/
+output/
+results/
+experiments/
+runs/
+wandb/
+tensorboard/
+tb_logs/
+*.ckpt
+*.pth
+*.pt
+*.model
+*.h5
+
+# Data files / databases
+data/
+dataset/
+datasets/
+*.sqlite3
+*.db
+
+# Secrets / local env overrides
+.env.local
+.env.*.local
+
+# Misc
+*.egg
+*.manifest
