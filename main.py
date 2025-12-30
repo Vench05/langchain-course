@@ -5,14 +5,16 @@ from pydantic import BaseModel, Field
 
 load_dotenv()
 
+from langchain.agents import AgentState
 from langchain.agents import create_agent
 from langchain.tools import tool
 from langchain_core.messages import HumanMessage
 from langchain_openai import ChatOpenAI
-from tavily import TavilyClient
+from langchain_tavily import TavilySearch
 
-tavily = TavilyClient()
-
+from langchain_classic import hub
+from langchain_classic.agents import AgentExecutor
+from langchain_classic.agents.react.agent import create_react_agent
 
 class Source(BaseModel):
     """Schema for a source used by the agent."""
@@ -29,27 +31,19 @@ class AgentResponse(BaseModel):
     )
 
 
-@tool
-def search(query: str) -> str:
-    """
-    Tool that search over internet.
-    Args:
-        query (str): The query to search for.
-    Returns:
-        The search results.
-    """
-    print(f"Searching for: {query}")
-    return tavily.search(query=query)
-
 
 def main():
     print("Hello from langchain-course!")
-    llm = ChatOpenAI(model="gpt-5-nano", temperature=0)
-    tools = [search]
-    agent = create_agent(model=llm, tools=tools, response_format=AgentResponse)
+    llm = ChatOpenAI(model="gpt-4", temperature=0)
+    tools = [TavilySearch()]
+    react_propmt = hub.pull('hwchase17/react')
+    agent = create_react_agent(llm=llm, tools=tools, prompt=react_propmt)
+    agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+    chain = agent_executor
 
     content = "Search for 3 job postings for an ai engineer using langchain in the bay area on linkedin and list their details"
-    result = agent.invoke({"messages": [HumanMessage(content=content)]})
+    # result = agent.invoke({"input": [HumanMessage(content=content)]})
+    result = chain.invoke({"input": content})
     print(f"Agent result: {result}")
 
 
