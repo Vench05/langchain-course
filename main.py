@@ -35,7 +35,9 @@ def main():
         ).partial(format_instructions=output_parser.get_format_instructions())
     agent = create_react_agent(llm=llm, tools=tools, prompt=react_propmpt_with_format_instructions)
     agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
-    chain = agent_executor
+    extract_output = RunnableLambda(lambda x: x["output"])
+    parse_output = RunnableLambda(lambda x: output_parser.parse(x))
+    chain = agent_executor | extract_output | parse_output
 
     content = "Search for 3 job postings for an ai engineer using langchain in the bay area on linkedin and list their details"
     # result = agent.invoke({"input": [HumanMessage(content=content)]})
